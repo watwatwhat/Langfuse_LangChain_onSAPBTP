@@ -1,0 +1,25 @@
+flask
+numpy
+openai
+python-dotenv
+generative-ai-hub-sdk[all]
+numexpr
+bs4
+hdbcli
+google-api-python-client
+faiss-cpu
+langchain
+langchain_community
+langchain_google_genai
+langchain_openai
+langchainhub
+langchain_aws
+langchain_google_vertexai
+
+pydantic
+
+# XSUAA バインド
+sap-xssec
+
+# Langfuse
+langfuse

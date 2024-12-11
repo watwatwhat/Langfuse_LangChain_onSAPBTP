@@ -1,0 +1,73 @@
+_schema-version: "3.1"
+ID: langfuse-test-app
+description: Langchain application for Langfuse test.
+version: 1.0.0
+
+modules:
+  - name: langfuse-langchain-srv
+    type: python
+    path: langchain/
+    requires:
+      - name: langchain-auth
+      - name: langchain-destination-service
+    provides:
+      - name: langchain-api
+        properties:
+          srv-url: ${default-url}
+    parameters:
+      buildpack: python_buildpack
+      disk-quota: 4G
+      host: langchain-app-${space}
+      memory: 4096M
+    build-parameters:
+      ignore:
+        - venv/
+
+resources:
+  - name: langchain-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      config:
+        tenant-mode: dedicated
+        xsappname: langchain-app-${org}-${space}
+      path: ./xs-security.json
+      service: xsuaa
+      service-name: langchain-auth-service
+      service-plan: application
+
+  - name: langchain-destination-service
+    type: org.cloudfoundry.managed-service
+    parameters:
+      config:
+        HTML5Runtime_enabled: true
+        # init_data:
+        #   instance:
+        #     destinations:
+        #       - Authentication: OAuth2UserTokenExchange
+        #         HTML5.DynamicDestination: true
+        #         HTML5.ForwardAuthToken: true
+        #         HTML5.Timeout: 900000
+        #         Name: langchain-srv
+        #         ProxyType: Internet
+        #         Type: HTTP
+        #         URL: ~{langchain-api/srv-url}
+        #       existing_destinations_policy: update
+        version: 1.0.0
+      service: destination
+      service-name: langchain-destination-service
+      service-plan: lite
+    requires:
+      - name: langchain-api
+      - name: langchain-auth
+        parameters:
+          service-key:
+            name: uaa_langchain-auth-key
+
+# parameters:
+#   deploy_mode: html5-repo
+#   enable-parallel-deployments: true
+# build-parameters:
+#   before-all:
+#     - builder: custom
+#       commands:
+#         - npx cds build --production

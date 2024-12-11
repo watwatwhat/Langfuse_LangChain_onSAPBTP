@@ -1,0 +1,39 @@
+{
+    "xsappname": "cap-llm-pi-test",
+    "tenant-mode": "dedicated",
+    "description": "Security profile of AI chat app",
+    "scopes": [
+        {
+            "name": "uaa.user",
+            "description": "UAA"
+        },
+        {
+            "name": "$XSAPPNAME.aichat-user",
+            "description": "aichat-user"
+        }
+    ],
+    "attributes": [],
+    "role-templates": [
+        {
+            "name": "Token_Exchange",
+            "description": "UAA",
+            "scope-references": [
+                "uaa.user"
+            ]
+        },
+        {
+            "name": "aichat-user",
+            "description": "generated",
+            "scope-references": [
+                "$XSAPPNAME.aichat-user"
+            ],
+            "attribute-references": []
+        }
+    ],
+    "oauth2-configuration": {
+        "redirect-uris": [
+            "https://*.hana.ondemand.com/**",
+            "https://*.applicationstudio.cloud.sap/**"
+        ]
+    }
+}
