@@ -40,18 +40,6 @@ resources:
     parameters:
       config:
         HTML5Runtime_enabled: true
-        # init_data:
-        #   instance:
-        #     destinations:
-        #       - Authentication: OAuth2UserTokenExchange
-        #         HTML5.DynamicDestination: true
-        #         HTML5.ForwardAuthToken: true
-        #         HTML5.Timeout: 900000
-        #         Name: langchain-srv
-        #         ProxyType: Internet
-        #         Type: HTTP
-        #         URL: ~{langchain-api/srv-url}
-        #       existing_destinations_policy: update
         version: 1.0.0
       service: destination
       service-name: langchain-destination-service
@@ -62,12 +50,3 @@ resources:
         parameters:
           service-key:
             name: uaa_langchain-auth-key
-
-# parameters:
-#   deploy_mode: html5-repo
-#   enable-parallel-deployments: true
-# build-parameters:
-#   before-all:
-#     - builder: custom
-#       commands:
-#         - npx cds build --production
